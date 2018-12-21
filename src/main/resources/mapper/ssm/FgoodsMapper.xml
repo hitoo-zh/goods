@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+* 城市 Mapper
+* @author GaoXiang
+* @version 1.0
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="FgoodsMapper">
+
+    <!-- 开启缓存 打印日志使用：LoggingEhcache。 不打印日志使用：EhcacheCache。 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <!-- 根据ID删除 -->
+    <delete id="deleteById" parameterType="string">
+            delete from f_goods
+            where id = #{id}
+        </delete>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.jee.ssm.model.Fgoods">
+        insert into f_goods (id,name,img,jin_price,sale_price,huoyuan,class_id,create_by,create_time)
+        values (#{id},#{name},#{img},#{jinPrice},#{salePrice},#{huoYuan},#{classId},#{createBy},#{createTime})
+    </insert>
+
+    <!-- 修改 -->
+    <update id="updateById" parameterType="com.jee.ssm.model.Fgoods">
+        update f_goods
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="jinPrice != null">
+                jin_price = #{jinPrice},
+            </if>
+            <if test="salePrice != null">
+                sale_price = #{salePrice},
+            </if>
+            <if test="huoYuan != null">
+                huoyuan = #{huoYuan},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 查询列表，分页信息不在此处控制，参数为map，返回实体 -->
+    <select id="list" resultType="com.jee.ssm.model.Fgoods" parameterType="map">
+        select
+        *
+        from f_goods
+        where 1=1
+        <if test="name!=null">
+            and name like '%${name}%'
+        </if>
+    </select>
+
+    <!-- 根据 id 查询所有列 -->
+    <select id="selectById" resultType="com.jee.ssm.model.Fgoods" parameterType="string">
+         select
+         *
+        from f_goods
+        where id = #{id}
+    </select>
+    <select id="selectId" resultType="com.jee.ssm.model.Fgoods" parameterType="map">
+        select * from f_goods order BY id DESC
+    </select>
+
+    <select id="selectByClassId" resultType="com.jee.ssm.model.Fgoods" parameterType="string">
+         select
+         *
+        from f_goods
+        where class_id = #{classId}
+    </select>
+
+</mapper>

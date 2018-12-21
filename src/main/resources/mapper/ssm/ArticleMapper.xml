@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+* 账户 Mapper
+* @author GaoXiang
+* @version 1.0
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="ArticleMapper" >
+
+    <!-- 开启缓存 打印日志使用：LoggingEhcache。 不打印日志使用：EhcacheCache。 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+
+    <insert id="insert" parameterType="com.jee.ssm.model.Article" >
+        insert into t_article (id,art_name,sort,cat_id,content,img,mark,create_time,create_by)
+        values (#{id},#{artName},#{sort},#{catId},#{content},#{img},#{mark},#{createTime},#{createBy})
+    </insert>
+    <update id="updateById" parameterType="com.jee.ssm.model.Article" >
+        update t_article
+        <set>
+            <if test="artName != null" >
+                art_name = #{artName},
+            </if>
+            <if test="sort != null" >
+                sort = #{sort},
+            </if>
+            <if test="catId != null" >
+                cat_id = #{catId},
+            </if>
+            <if test="content != null" >
+                content = #{content},
+            </if>
+            <if test="img != null" >
+                img = #{img},
+            </if>
+            <if test="mark != null" >
+                mark = #{mark},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime},
+            </if>
+            <if test="createBy!= null" >
+                create_by = #{createBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="list" resultType="com.jee.ssm.model.Article" parameterType="map">
+        select art.*,cat.cat_name AS catName
+        from t_article art
+        left join t_article_cat cat
+        ON art.cat_id=cat.id
+        where 1=1
+    </select>
+    <select id="selectById" resultType="com.jee.ssm.model.Article" parameterType="string">
+        select art.*,cat.cat_name AS catName
+        from t_article art
+        left join t_article_cat cat
+        ON art.cat_id=cat.id
+        where art.id = #{id}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+* 城市 Mapper
+* @author GaoXiang
+* @version 1.0
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="FgoodsinMapper">
+
+    <!-- 开启缓存 打印日志使用：LoggingEhcache。 不打印日志使用：EhcacheCache。 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.jee.ssm.model.Fgoodsin">
+        insert into f_goodsin (id,goods_id,store_id,goods_num,create_time,create_manager_id,mark)
+        values (#{id},#{goodsId},#{storeId},#{goodsNum},#{createTime},#{createManagerId},#{mark})
+    </insert>
+
+    <!-- 查询列表，分页信息不在此处控制，参数为map，返回实体 -->
+    <select id="selectXiangQingByGoodsId" resultType="com.jee.ssm.model.Fgoodsin" parameterType="map">
+        select
+         *
+        from f_goodsin
+        where id = #{id}
+    </select>
+
+</mapper>
