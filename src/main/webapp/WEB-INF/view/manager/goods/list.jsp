@@ -14,7 +14,7 @@
 <!--[if IE 9]> <html lang="zh" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="zh">
-<!--<![endif]-->
+<!--<![endif]-- >
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8"/>
