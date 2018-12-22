@@ -1,11 +1,11 @@
-<%--
+<%-- s孙哈开机快了1
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/03/20
   Time: 下午 22:08
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ taglib prefix="ssm" uri="http://ssm.elangzhi.com/jsp/tag/functions" %>
@@ -14,7 +14,8 @@
 <!--[if IE 9]> <html lang="zh" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="zh">
-<!--<![endif]-->
+<!--<![endif]-- >
+sunhao
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8"/>
@@ -29,7 +30,7 @@
 <body class="page-content-white  fade-in-up">
 
 <!-- BEGIN CONTAINER -->
-<div class="page-container">
+<div class="page-container" >
 
 
     <!-- BEGIN PAGE TOOLS-->
