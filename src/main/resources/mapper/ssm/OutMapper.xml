@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+* 账户 Mapper
+* @author GaoXiang
+* @version 1.0
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="OutMapper" >
+
+    <!-- 开启缓存 打印日志使用：LoggingEhcache。 不打印日志使用：EhcacheCache。 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <insert id="insert" parameterType="com.jee.ssm.model.Out" >
+        insert into g_out (id,type,goods_id,count,mark,create_time,create_by)
+        values (#{id},#{type},#{goodsId},#{count},#{mark},#{createTime},#{createBy})
+    </insert>
+
+    <select id="list" resultType="com.jee.ssm.model.Out" parameterType="map">
+        select
+        ou.*,goo.g_name as gooName
+        from g_out ou left JOIN g_goods goo ON ou.goods_id=goo.id
+        where 1=1
+    </select>
+
+    <select id="selectSum" resultType="long" parameterType="com.jee.ssm.model.Out">
+        select sum(count) as count FROM g_out ou WHERE date(ou.create_time) = curdate() and ou.type=#{type}
+
+    </select>
+
+</mapper>

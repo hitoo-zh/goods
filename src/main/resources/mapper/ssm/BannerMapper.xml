@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+* 账户 Mapper
+* @author GaoXiang
+* @version 1.0
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="BannerMapper" >
+
+    <!-- 开启缓存 打印日志使用：LoggingEhcache。 不打印日志使用：EhcacheCache。 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+
+    <insert id="insert" parameterType="com.jee.ssm.model.Banner" >
+        insert into banner (id,title,imgs,mark,sort,cat_id)
+        values (#{id},#{title},#{imgs},#{mark},#{sort},#{catId})
+    </insert>
+    <update id="updateById" parameterType="com.jee.ssm.model.Banner" >
+        update banner
+        <set>
+            <if test="title != null" >
+                title = #{title},
+            </if>
+            <if test="sort != null" >
+                sort = #{sort},
+            </if>
+            <if test="imgs != null" >
+                imgs = #{imgs},
+            </if>
+            <if test="mark != null" >
+                mark = #{mark},
+            </if>
+            <if test="catId!= null" >
+                cat_id = #{catId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="list" resultType="com.jee.ssm.model.Banner" parameterType="map">
+        select ba.*,cat.name AS catName
+        from banner ba
+        left join banner_cat cat
+        ON ba.cat_id=cat.id
+        where 1=1
+    </select>
+
+    <select id="selectById" resultType="com.jee.ssm.model.Banner" parameterType="string">
+        select ba.*,cat.name AS catName
+        from banner ba
+        left join banner_cat cat
+        ON ba.cat_id=cat.id
+        where ba.id = #{id}
+    </select>
+
+
+</mapper>

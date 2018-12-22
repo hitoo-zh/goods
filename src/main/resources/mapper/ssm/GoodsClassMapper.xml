@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+* 城市 Mapper
+* @author GaoXiang
+* @version 1.0
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="GoodsClassMapper">
+
+    <!-- 开启缓存 打印日志使用：LoggingEhcache。 不打印日志使用：EhcacheCache。 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <!-- 根据 id 查询所有列 -->
+    <select id="selectById" resultType="com.jee.ssm.model.GoodsClass" parameterType="string">
+         select
+         *
+        from f_goods_class
+        where id = #{id}
+    </select>
+
+    <!-- 根据 id 删除 -->
+    <delete id="deleteById" parameterType="string">
+        delete from f_goods_class
+        where id = #{id}
+    </delete>
+
+    <!-- 批量删除，参数是名为ids的list -->
+    <delete id="deleteByIds" parameterType="list">
+        delete from f_goods_class where id in
+        <foreach item="ids" collection="list" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.jee.ssm.model.GoodsClass">
+        insert into f_goods_class (id,name,pid,create_by,create_time)
+        values (#{id},#{name},#{pid},#{createBy},#{createTime})
+    </insert>
+
+    <!-- 根据 id 更新数据 -->
+    <update id="updateById" parameterType="com.jee.ssm.model.GoodsClass">
+        update f_goods_class
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="position != null">
+                pid = #{pid},
+            </if>
+            <if test="numPeople != null">
+                create_by = #{createBy},
+            </if>
+            <if test="type != null">
+                createTime = #{create_time},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 查询列表，分页信息不在此处控制，参数为map，返回实体 -->
+    <select id="list" resultType="com.jee.ssm.model.GoodsClass" parameterType="map">
+        select
+        gc.*,
+        a.name as userName
+        from f_goods_class gc
+        left join t_admin a on gc.create_by=a.id
+        where 1=1
+        <if test="name!=null">
+            and gc.name like '%${name}%'
+        </if>
+    </select>
+    <!-- 查询列表，分页信息不在此处控制，参数为map，返回实体 -->
+    <select id="selectAll" resultType="com.jee.ssm.model.GoodsClass" parameterType="map">
+        select
+        *
+        from f_goods_class
+        where 1=1
+    </select>
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+* 城市 Mapper
+* @author GaoXiang
+* @version 1.0
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="StudentMapper" >
+
+    <!-- 开启缓存 打印日志使用：LoggingEhcache。 不打印日志使用：EhcacheCache。 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <!-- 根据 id 查询所有列 -->
+    <select id="selectById" resultType="com.jee.ssm.model.Student" parameterType="string" >
+         select
+        st.*,
+        cl.class_name as className,
+        gr.grade_name AS gradeName
+        from s_student st
+        LEFT JOIN s_class cl on st.class_id=cl.id
+        LEFT JOIN s_grade gr on cl.grade_id=gr.id
+        where st.id = #{id}
+    </select>
+
+    <!-- 根据 id 删除 -->
+    <delete id="deleteById" parameterType="string" >
+        delete from s_student
+        where id = #{id}
+    </delete>
+
+    <!-- 批量删除，参数是名为ids的list -->
+    <delete id="deleteByIds" parameterType="list">
+        delete from s_student where id in
+        <foreach item="ids" collection="list" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.jee.ssm.model.Student" >
+        insert into s_student (id,name,sex,photo,class_id,telephone,address,mark)
+        values (#{id},#{name},#{sex},#{photo},#{classId},#{telephone},#{address},#{mark})
+    </insert>
+
+    <!-- 根据 id 更新数据 -->
+   <update id="updateById" parameterType="com.jee.ssm.model.Student" >
+        update s_student
+        <set>
+            <if test="name != null" >
+                name = #{name},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex},
+            </if>
+            <if test="photo != null" >
+                photo = #{photo},
+            </if>
+            <if test="classId != null" >
+                class_id = #{classId},
+            </if>
+            <if test="telephone != null" >
+                telephone = #{telephone},
+            </if>
+            <if test="address != null" >
+                address = #{address},
+            </if>
+            <if test="mark != null" >
+                mark = #{mark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 查询列表，分页信息不在此处控制，参数为map，返回实体 -->
+    <select id="list" resultType="com.jee.ssm.model.Student" parameterType="map">
+        select
+        st.*,
+        cl.class_name as className,
+        gr.grade_name AS gradeName
+        from s_student st
+        LEFT JOIN s_class cl on st.class_id=cl.id
+        LEFT JOIN s_grade gr on cl.grade_id=gr.id
+        where 1=1
+        <if test="name != null and name != ''" >
+            and st.name like '%${name}%'
+        </if>
+        <if test="classId != null and classId!=''" >
+            and st.class_id = #{classId}
+        </if>
+        <if test="gradeId != null and gradeId !=''" >
+            and cl.grade_id = #{gradeId}
+        </if>
+    </select>
+
+</mapper>
