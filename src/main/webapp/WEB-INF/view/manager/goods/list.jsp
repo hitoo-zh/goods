@@ -121,7 +121,7 @@
                             <input type="checkbox" class="checkbox-all" title="全选"><span></span>
                         </label>
                     </th>
-                    <th>编号</th>
+                    <th>编号666666</th>
                     <th>名字</th>
                     <th>图片</th>
                     <th>单位</th>
