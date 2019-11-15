@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+* 城市 Mapper
+* @author GaoXiang
+* @version 1.0
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="GoodsMapper" >
+
+    <!-- 开启缓存 打印日志使用：LoggingEhcache。 不打印日志使用：EhcacheCache。 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <!-- 根据 id 查询所有列 -->
+   <select id="selectById" resultType="com.jee.ssm.model.Goods" parameterType="string" >
+         select
+        goo.*,goo.produt_addr as product,
+        gcat.cat_name as catName
+        from g_goods goo
+        LEFT JOIN g_goods_cat gcat on goo.cat_id=gcat.id
+        where goo.id = #{id}
+    </select>
+    <!--根据 ids 查询所-->
+    <select id="selectByIds" resultType="com.jee.ssm.model.Goods" parameterType="list" >
+        select * from g_goods where id in
+        <foreach item="ids" collection="list" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </select>
+
+        <delete id="deleteById" parameterType="string" >
+            delete from g_goods
+            where id = #{id}
+        </delete>
+    <insert id="insert" parameterType="com.jee.ssm.model.Goods" >
+        insert into g_goods (id,g_name,photo,unit,count,produt_addr,cat_id,create_time,create_by,mark)
+        values (#{id},#{gName},#{photo},#{unit},#{count},#{product},#{catId},#{createTime},#{createBy},#{mark})
+    </insert>
+
+    <update id="updateById" parameterType="com.jee.ssm.model.Student" >
+        update g_goods
+        <set>
+            <if test="gName != null" >
+                g_name = #{gName},
+            </if>
+            <if test="photo != null" >
+                photo = #{photo},
+            </if>
+            <if test="unit != null" >
+                unit = #{unit},
+            </if>
+            <if test="count != null" >
+                count = #{count},
+            </if>
+            <if test="product != null" >
+                produt_addr = #{product},
+            </if>
+            <if test="catId != null" >
+                cat_id = #{catId},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime},
+            </if>
+            <if test="createBy != null" >
+                create_by = #{createBy},
+            </if>
+            <if test="mark != null" >
+                mark = #{mark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 查询列表，分页信息不在此处控制，参数为map，返回实体 -->
+    <select id="list" resultType="com.jee.ssm.model.Goods" parameterType="map">
+        select
+        goo.*,goo.produt_addr as product,
+        gcat.cat_name as catName
+        from g_goods goo
+        LEFT JOIN g_goods_cat gcat on goo.cat_id=gcat.id
+        where 1=1
+        <if test="gName!=null">
+            and goo.g_name like '%${gName}%'
+        </if>
+    </select>
+
+    <select id="selectId" resultType="com.jee.ssm.model.Goods" parameterType="map">
+        SELECT  * from g_goods order BY id DESC
+            </select>
+
+</mapper>
